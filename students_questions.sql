@@ -190,19 +190,32 @@ HAVING count(cno) >=3;
 
 -- Q4: Find students who take CS112 or CS114 but not both.
 
+WITH students_CS112_or_CS114 AS(
+SELECT DISTINCT sno 
+FROM take
+WHERE cno = 'CS112'
+UNION 
+SELECT DISTINCT sno 
+FROM take
+WHERE cno = 'CS114'
+), 
+students_CS112_and_CS114 AS (
+select sno 
+FROM take
+WHERE sno IN (select sno FROM take WHERE cno='CS112') AND sno IN (select sno FROM take WHERE cno='CS114')
+)
 SELECT sno 
-FROM student 
-WHERE sno NOT IN (select sno FROM take WHERE cno='CS112') AND sno NOT IN (select sno FROM take WHERE cno='CS114');
+FROM students_CS112_or_CS114 
+WHERE sno NOT IN (SELECT sno FROM students_CS112_and_CS114);
 
 /*
  sno
 -----
-   5
-   7
-   8
-   9
-  10
-(5 rows)
+   1
+   4
+   2
+   6
+(4 rows)
 */
 
 -- Q5: Find the students who take exactly 2 courses
