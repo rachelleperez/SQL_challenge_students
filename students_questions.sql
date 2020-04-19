@@ -163,6 +163,8 @@ SELECT DISTINCT sno
 FROM take
 WHERE sno NOT IN (SELECT sno FROM students_1_course_and_CS112);
 
+
+
 /*
  sno
 -----
@@ -200,7 +202,7 @@ FROM take
 WHERE cno = 'CS114'
 ), 
 students_CS112_and_CS114 AS (
-select sno 
+select DISTINCT sno 
 FROM take
 WHERE sno IN (select sno FROM take WHERE cno='CS112') AND sno IN (select sno FROM take WHERE cno='CS114')
 )
@@ -211,11 +213,10 @@ WHERE sno NOT IN (SELECT sno FROM students_CS112_and_CS114);
 /*
  sno
 -----
-   1
    4
    2
    6
-(4 rows)
+(3 rows)
 */
 
 -- Q5: Find the students who take exactly 2 courses
@@ -269,7 +270,7 @@ SELECT sno FROM take WHERE cno = 'CS112' AND sno IN (SELECT sno FROM students_1_
 (1 row)
 */
 
--- Q8: Q8: Find the youngest students WITHOUT using MIN() or MAX().
+-- Q8: Find the youngest students WITHOUT using MIN() or MAX().
 
 SELECT *
 FROM student
